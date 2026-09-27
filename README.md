@@ -230,23 +230,26 @@ This allows the complete detection pipeline to be demonstrated without requiring
 ![Honeypot Threat Detection Architecture](screenshots/architecture.png)
 
 ### System Flow:
+
+```text
 Attacker/Simulator
-↓
+        ↓
 Honeypots (SSH | HTTP | DB)
-↓ POST /api/events
+        ↓ POST /api/events
 Event Processor (Node.js)
-Feature Extraction (10 features)
-↓
-┌────┼────┐
-↓ ↓ ↓
-ML Rules SQLite
-94% DB
-└────┼────┘
-↓
+   Feature Extraction (10 features)
+        ↓
+   ┌────┼────┐
+   ↓    ↓    ↓
+  ML  Rules SQLite
+ 94%         DB
+   └────┼────┘
+        ↓
 Threat Engine
-Attack Chain · Severity
-↓
+  Attack Chain · Severity
+        ↓
 SOC Dashboard (React)
+```
 # 🛠️ Technology Stack
 
 ## 🎨 Frontend
