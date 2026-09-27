@@ -225,62 +225,28 @@ This allows the complete detection pipeline to be demonstrated without requiring
 
 ---
 
-# 🏗️ System Architecture
+## 🏗️ Architecture
 
-```text
-                         ┌─────────────────────┐
-                         │      ATTACKER       │
-                         │     / SIMULATOR     │
-                         └──────────┬──────────┘
-                                    │
-                  ┌─────────────────┼─────────────────┐
-                  │                 │                 │
-                  ▼                 ▼                 ▼
-          ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-          │ SSH Honeypot │  │ HTTP Honeypot│  │ DB Honeypot  │
-          │   Cowrie     │  │ Fake Service │  │ Fake DB      │
-          └──────┬───────┘  └──────┬───────┘  └──────┬───────┘
-                 │                 │                 │
-                 └─────────────────┼─────────────────┘
-                                   │
-                                   ▼
-                         ┌─────────────────────┐
-                         │   Node.js Backend   │
-                         │                     │
-                         │ Event Processing    │
-                         │ Feature Extraction  │
-                         │ REST API            │
-                         └──────────┬──────────┘
-                                    │
-                     ┌──────────────┼──────────────┐
-                     │              │              │
-                     ▼              ▼              ▼
-              ┌────────────┐ ┌────────────┐ ┌────────────┐
-              │ ML Model   │ │ Rule Engine│ │  SQLite DB │
-              │ Random     │ │ Fallback   │ │  Storage   │
-              │ Forest     │ │            │ │            │
-              └─────┬──────┘ └─────┬──────┘ └────────────┘
-                    │               │
-                    └───────┬───────┘
-                            ▼
-                   ┌──────────────────┐
-                   │  Threat Engine   │
-                   │                  │
-                   │ Severity Scoring │
-                   │ Attack Chains    │
-                   │ Threat Reports   │
-                   └────────┬─────────┘
-                            │
-                            ▼
-                   ┌──────────────────┐
-                   │  SOC Dashboard   │
-                   │                  │
-                   │ React + Recharts │
-                   └──────────────────┘
-```
+![Honeypot Threat Detection Architecture](screenshots/architecture.png)
 
----
-
+### System Flow:
+Attacker/Simulator
+↓
+Honeypots (SSH | HTTP | DB)
+↓ POST /api/events
+Event Processor (Node.js)
+Feature Extraction (10 features)
+↓
+┌────┼────┐
+↓ ↓ ↓
+ML Rules SQLite
+94% DB
+└────┼────┘
+↓
+Threat Engine
+Attack Chain · Severity
+↓
+SOC Dashboard (React)
 # 🛠️ Technology Stack
 
 ## 🎨 Frontend
